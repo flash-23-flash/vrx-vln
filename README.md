@@ -1,11 +1,34 @@
 # VRX_VLN
 
+<div align="center">
+
+![ROS 2](https://img.shields.io/badge/ROS%202-Humble-22314E?logo=ros&logoColor=white)
+![Gazebo](https://img.shields.io/badge/Gazebo-VRX-FFB000?logo=gazebo&logoColor=111111)
+![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python&logoColor=white)
+![Marine VLN](https://img.shields.io/badge/Marine--VLN-Demo%20Workspace-0E7490)
+![License](https://img.shields.io/badge/License-Apache--2.0-2E7D32)
+
+**Marine visual-language navigation for VRX / Gazebo simulation.**
+
+[Demo Gallery](#demo-gallery) | [Build](#build) | [Run](#run) | [Configuration](#configuration)
+
+</div>
+
 VRX_VLN is a ROS 2 workspace for marine visual-language navigation experiments in the VRX / Gazebo simulation environment. It keeps a compact end-to-end demo stack for a WAM-V style unmanned surface vehicle: parse natural-language navigation commands, build semantic subgoals, plan a local route, and send safe thruster commands in simulation.
 
 The current repository focuses on two reproducible demos:
 
 - pass between red and green buoys
 - follow the channel and approach the dock
+
+## Demo Gallery
+
+GitHub renders these GIF demos directly on the repository home page.
+
+| Pass Between Buoys | Channel Follow and Dock Approach |
+| --- | --- |
+| <img src="results/demos/20260506_gifs/demo_174033.gif" alt="VRX_VLN demo: pass between red and green buoys" width="420"> | <img src="results/demos/20260506_gifs/demo_174140.gif" alt="VRX_VLN demo: follow the channel and approach the dock" width="420"> |
+| `scripts/run_demo_pass_gate.sh` | `scripts/run_demo_to_dock.sh` |
 
 ## Highlights
 
