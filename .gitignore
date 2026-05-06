@@ -2,6 +2,7 @@
 build/
 install/
 log/
+logs/
 
 # Python
 *.pyc
@@ -22,6 +23,29 @@ env/
 
 # Colcon
 *.deb
+
+# Runtime logs and ROS bags
+*.log
+*.bag
+*.db3
+*.mcap
+src/marine_vln_vrx/logs/*
+!src/marine_vln_vrx/logs/.gitkeep
+
+# Local environment and credentials
+.env
+.env.*
+credentials.yaml
+secrets.yaml
+
+# Local model checkpoints / downloaded weights
+models/
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+*.onnx
 
 # Sensitive files (add your own)
 # credentials.yaml

@@ -1,136 +1,193 @@
 # VRX_VLN
 
-**Public GitHub repository name:** vrx-vln
+VRX_VLN is a ROS 2 workspace for marine visual-language navigation experiments in the VRX / Gazebo simulation environment. It keeps a compact end-to-end demo stack for a WAM-V style unmanned surface vehicle: parse natural-language navigation commands, build semantic subgoals, plan a local route, and send safe thruster commands in simulation.
 
-## 项目概述
+The current repository focuses on two reproducible demos:
 
-`VRX_VLN` 是一个精简的基于 ROS 2 的海上自主航行（Visual-Location Navigation, VLN）示例工程，面向 VRX（仿真竞赛）场景。该仓库保留了两个核心 demo：
+- pass between red and green buoys
+- follow the channel and approach the dock
 
-- 漂浮门穿越（pass gate）
-- 沿航道前进并靠近码头（to dock）
+## Highlights
 
-工程采用 colcon 构建，使用 ROS 2 节点和 Gazebo / Ignition（通过 `ros_gz`）进行仿真。
+- ROS 2 Humble workspace built with `colcon`
+- Gazebo / VRX-style WAM-V simulation assets and launch files
+- Layered Marine-VLN pipeline: instruction parsing, semantic mapping, subgoal planning, local planning, control, and safety monitoring
+- Optional OpenAI-compatible VLM endpoint support, with helper scripts for local Qwen2.5-VL / vLLM service management
+- Ready-to-run shell scripts for build, launch, demo commands, and status inspection
 
-## 特性
+## Repository Layout
 
-- 最小化的 Marine-VLN 原型（基于 `marine_vln_vrx` 包）。
-- 提供用于构建与启动的脚本：`build_vrx_vln.sh`、`launch_marine_vln.sh`、`launch_marine_vln_classic.sh`。
-- 演示脚本位于 `scripts/`：`run_demo_pass_gate.sh`、`run_demo_to_dock.sh`。
+```text
+.
+|-- build_vrx_vln.sh                 # Build the minimal demo workspace
+|-- launch_marine_vln.sh             # Launch the default Marine-VLN stack
+|-- launch_marine_vln_classic.sh     # Launch the long-range classic scene
+|-- launch_vrx_vln.sh                # Launch a basic VRX_VLN scene
+|-- docs/
+|   `-- COMMAND_QUICKSTART.md        # Short command reference
+|-- scripts/
+|   |-- run_demo_pass_gate.sh        # Demo: pass between buoys
+|   |-- run_demo_to_dock.sh          # Demo: approach dock
+|   |-- start_qwen25_vl_server.sh    # Optional local VLM server helper
+|   |-- check_qwen25_vl_server.sh
+|   |-- stop_qwen25_vl_server.sh
+|   `-- show_vlm_route_status.sh
+`-- src/
+    |-- marine_vln_vrx/              # Marine-VLN ROS 2 Python package
+    |-- vrx_vln_bringup/             # Worlds, launch files, RViz configs
+    |-- vrx_gz/, vrx_ros/            # Gazebo / ROS bridge support
+    |-- vrx_urdf/                    # WAM-V descriptions and Gazebo assets
+    `-- *_msg, *_processor, *_planner
+```
 
-## 目录结构（重要文件）
+## Requirements
 
-- `build_vrx_vln.sh`：构建整个工作区的便捷脚本。
-- `launch_marine_vln.sh`、`launch_marine_vln_classic.sh`：不同场景的启动脚本。
-- `scripts/`：包含 demo 启动与 VLM 服务脚本。
-- `src/marine_vln_vrx/`：主功能包（`package.xml` 指明为 ROS 2、`ament_python` 构建）。
+Recommended platform:
 
-（更多文件请参见仓库顶层）
+- Ubuntu 22.04
+- ROS 2 Humble
+- Gazebo / `ros_gz`
+- Python 3 and `colcon`
+- A GPU-capable Python environment if you want to run Qwen2.5-VL locally
 
-## 先决条件
-
-- 操作系统：Ubuntu（建议配合对应 ROS 2 发布版的系统）。
-- ROS 2：一套已安装且配置好的 ROS 2（例如 `humble`、`galactic`、`foxy` 等），请根据你的系统选择合适的发行版。
-- `colcon`：用于构建 ROS 2 工作区。安装方法见下文。
-- Gazebo / Ignition 与 `ros_gz`（如果需要仿真）。
-
-注意：`src/marine_vln_vrx/package.xml` 指明了项目依赖 `rclpy`、`launch`、`launch_ros`、`nav_msgs`、`ros_gz_interfaces` 等。
-
-## 一键（或半自动）配置依赖（建议流程）
-
-以下命令为示例，请将 `<ros-distro>` 替换为你选择的 ROS 发行版（如 `humble`）。
-
-1) 安装系统依赖（Debian/Ubuntu）：
+Install common system dependencies:
 
 ```bash
 sudo apt update
-sudo apt install -y build-essential python3-colcon-common-extensions python3-pip git
-sudo apt install -y ros-<ros-distro>-desktop
+sudo apt install -y \
+  build-essential cmake git python3-pip python3-rosdep \
+  python3-colcon-common-extensions python3-vcstool
+
+sudo apt install -y \
+  ros-humble-desktop ros-humble-ros-gz ros-humble-ros-gz-bridge \
+  ros-humble-rviz2 ros-humble-xacro ros-humble-robot-state-publisher
 ```
 
-2) 安装 `ros_gz`（如果需要仿真）与其它常见包：
+Initialize `rosdep` if needed:
 
 ```bash
-sudo apt install -y ros-<ros-distro>-ros-gz-bridge ros-<ros-distro>-ros-gz
+sudo rosdep init || true
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y --rosdistro humble
 ```
 
-3) Python 依赖（若仓内 Python 包需要）：
-
-```bash
-python3 -m pip install -U pip
-# 如果需要，安装本地开发依赖：
-# pip install -r requirements.txt
-```
-
-4) 构建与运行：
+## Build
 
 ```bash
 cd /path/to/VRX_VLN
 ./build_vrx_vln.sh
-source install/setup.bash
+```
+
+By default, the script builds the minimal bringup stack needed for the demos. To build every package copied into the workspace:
+
+```bash
+VRX_VLN_BUILD_ALL=1 ./build_vrx_vln.sh
+```
+
+## Run
+
+Launch the recommended classic long-range scene:
+
+```bash
+cd /path/to/VRX_VLN
 ./launch_marine_vln_classic.sh
-# 在另一个终端运行 demo：
-./scripts/run_demo_pass_gate.sh
 ```
 
-## 使用 Git 和 推送到 GitHub（我已为你选择仓库名）
-
-- 推荐仓库名：`vrx-vln`（公开仓库）。
-- 我无法在无凭证的情况下直接替你把代码推上 GitHub。以下是两个推荐选项：
-
-1) 使用 GitHub CLI（推荐；本机安全认证一次即可）
+Launch the default Marine-VLN scene:
 
 ```bash
-# 在本机上登录一次：
-gh auth login
-# 创建远程仓库（public）并将本地仓库关联：
-gh repo create your-github-username/vrx-vln --public --source=. --push
+./launch_marine_vln.sh
 ```
 
-2) 手动在 GitHub 网页上创建 `vrx-vln` 仓库，然后在本地执行：
+Useful launch arguments:
 
 ```bash
-git init
-git add .
-git commit -m "Initial import of VRX_VLN"
-git branch -M main
-git remote add origin https://github.com/<your-username>/vrx-vln.git
-git push -u origin main
+./launch_marine_vln_classic.sh headless:=True rviz:=False
+./launch_marine_vln.sh vlm_model:=Qwen/Qwen2.5-VL-3B-Instruct-AWQ
 ```
 
-安全提示：不要通过聊天发送你的访问令牌（PAT）。如果需要我“远程”替你创建仓库并推送，请在安全通道提供一个短期 PAT，我可以给出基于 `curl` 的示例命令，但强烈建议你在本机运行 `gh` 命令。
+## Demo Commands
 
-## 启动与演示
-
-快速启动：
+Open a second terminal after the simulator is running:
 
 ```bash
-./build_vrx_vln.sh
+cd /path/to/VRX_VLN
+source /opt/ros/humble/setup.bash
 source install/setup.bash
-./launch_marine_vln_classic.sh
-# 新终端：
+
 ./scripts/run_demo_pass_gate.sh
+./scripts/run_demo_to_dock.sh
 ```
 
-## 故障排查要点
+Inspect the latest VLM / rule-fallback route decision:
 
-- 若 `colcon build` 失败，先看 `install` 和 `build` 输出，按提示安装缺少的 ROS 包。
-- 若 Gazebo/ros_gz 连接失败，确认 `ros_gz` 版本与本机 Gazebo/Ignition 兼容。
+```bash
+./scripts/show_vlm_route_status.sh
+```
 
-## 许可证
+You can also publish a command directly:
 
-此仓库使用 `Apache-2.0`（与 `src/marine_vln_vrx/package.xml` 一致）。
+```bash
+ros2 topic pub --once /vln/instruction_text std_msgs/msg/String \
+  "{data: 'Pass between the red and green buoys'}"
+```
 
----
+## Optional VLM Server
 
-如果你同意我将仓库命名为 `vrx-vln` 并设置为公开，我会：
+The parser can use an OpenAI-compatible vision-language model endpoint. The default API base is:
 
-- 在仓库根目录添加 `README.md`（已完成）、`.gitignore`、`LICENSE` 和 `scripts/setup_env.sh`（见仓内）。
-- 给出你需在本机运行的逐步命令来初始化 Git、提交并推送到 GitHub（含 `gh` 示例）。
+```text
+http://127.0.0.1:8000/v1
+```
 
-请选择：
+Start, check, and stop the helper-managed local Qwen2.5-VL service:
 
-1. 请我现在生成并显示用于在你机器上运行的完整命令（我不会要求凭证）。
-2. 你愿意通过 `gh auth login` 在本机登录并让我在这里直接给出 `gh repo create ... --push` 命令执行建议（我不在你机器上运行这些命令）。
-3. 你想把仓库创建与推送的事情全部交给我（这需要你通过安全方式临时提供 PAT；不推荐在聊天中发送）。
+```bash
+./scripts/start_qwen25_vl_server.sh --3b
+./scripts/check_qwen25_vl_server.sh
+./scripts/stop_qwen25_vl_server.sh
+```
 
-我推荐选项 1 或 2（安全且简单）。
+To point the launch scripts at another compatible endpoint:
+
+```bash
+export QWEN25_VL_BASE_URL=http://127.0.0.1:8000/v1
+./launch_marine_vln_classic.sh
+```
+
+If the VLM endpoint is unavailable, the system can fall back to rule-based parsing in hybrid mode.
+
+## Configuration
+
+The main runtime parameters live in:
+
+```text
+src/marine_vln_vrx/config/marine_vln_params.yaml
+```
+
+Important sections:
+
+- `instruction_manager`: command parsing mode, VLM endpoint, model name, retry and logging policy
+- `scene_parser`: sensor topics and scene object files
+- `semantic_mapper`: semantic map publishing and benchmark perturbations
+- `subgoal_planner`: pass-between, dock-approach, obstacle-avoidance parameters
+- `local_planner`, `controller`, `safety_monitor`: path smoothing, thruster control, and safety gates
+
+## Troubleshooting
+
+- If `install/setup.bash` is missing, run `./build_vrx_vln.sh` first.
+- If Gazebo cannot find models or worlds, rebuild and launch from the repository root so the scripts can set `GZ_SIM_RESOURCE_PATH`.
+- If `ros_gz` packages are missing, install `ros-humble-ros-gz` and run `rosdep install --from-paths src --ignore-src -r -y --rosdistro humble`.
+- If VLM calls return model-not-found errors, start the local server first or pass `vlm_model:=...` explicitly.
+- The ignored folders `build/`, `install/`, and `log/` are generated locally and are not intended to be committed.
+
+## Related Work
+
+This project follows the layout and publishing style commonly used by ROS / Gazebo open-source workspaces:
+
+- [osrf/vrx](https://github.com/osrf/vrx): Virtual RobotX simulation environment for unmanned surface vehicles
+- [gazebosim/ros_gz](https://github.com/gazebosim/ros_gz): ROS and Gazebo integration packages
+
+## License
+
+This repository is released under the Apache-2.0 license. See [LICENSE](LICENSE).

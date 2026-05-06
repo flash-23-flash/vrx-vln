@@ -1,33 +1,37 @@
 #!/usr/bin/env bash
 set -e
 
-echo "===== VRX_VLN 环境设置助手 ====="
+echo "===== VRX_VLN environment helper ====="
 
-if [ -z "${ROS_DISTRO}" ]; then
-  echo "请先在 shell 中设置 ROS_DISTRO，例如：export ROS_DISTRO=humble"
-  echo "或者在命令前设置：ROS_DISTRO=humble ./scripts/setup_env.sh"
-  exit 1
-fi
+ROS_DISTRO="${ROS_DISTRO:-humble}"
+echo "Using ROS_DISTRO=${ROS_DISTRO}"
 
-echo "检测到 ROS_DISTRO=${ROS_DISTRO}"
+cat <<EOF
 
-echo "下面是推荐的安装命令（请根据你的系统选择执行）："
-echo
-echo "sudo apt update"
-echo "sudo apt install -y build-essential python3-colcon-common-extensions python3-pip git"
-echo "sudo apt install -y ros-${ROS_DISTRO}-desktop"
-echo "sudo apt install -y ros-${ROS_DISTRO}-ros-gz-bridge ros-${ROS_DISTRO}-ros-gz"
+Recommended Ubuntu / ROS dependency commands:
 
-echo
-echo "如果你希望脚本自动安装，请在具备 sudo 权限的 shell 中运行："
-echo "  sudo bash -c 'apt update && apt install -y build-essential python3-colcon-common-extensions python3-pip git ros-${ROS_DISTRO}-desktop ros-${ROS_DISTRO}-ros-gz-bridge ros-${ROS_DISTRO}-ros-gz'"
+sudo apt update
+sudo apt install -y \\
+  build-essential cmake git python3-pip python3-rosdep \\
+  python3-colcon-common-extensions python3-vcstool
 
-echo
-echo "安装完成后，请运行："
-echo "  python3 -m pip install -U pip"
-echo "  cd $(pwd)"
-echo "  ./build_vrx_vln.sh"
-echo "  source install/setup.bash"
-echo "  ./launch_marine_vln_classic.sh"
+sudo apt install -y \\
+  ros-${ROS_DISTRO}-desktop ros-${ROS_DISTRO}-ros-gz ros-${ROS_DISTRO}-ros-gz-bridge \\
+  ros-${ROS_DISTRO}-rviz2 ros-${ROS_DISTRO}-xacro ros-${ROS_DISTRO}-robot-state-publisher
 
-echo "脚本结束。若需更多自动化，请手动编辑本脚本以添加 apt/pip 安装步骤。"
+Then initialize rosdep if this machine has not done so before:
+
+sudo rosdep init || true
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y --rosdistro ${ROS_DISTRO}
+
+Build and launch:
+
+source /opt/ros/${ROS_DISTRO}/setup.bash
+./build_vrx_vln.sh
+source install/setup.bash
+./launch_marine_vln_classic.sh
+
+EOF
+
+echo "This helper prints commands only; run the commands you need for your machine."
