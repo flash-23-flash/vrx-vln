@@ -1,0 +1,174 @@
+frame_id: map
+objects:
+  - name: waypoint_a
+    type: waypoint
+    position: [162.0, 14.0, 0.0]
+    risk_radius: 1.5
+    aliases: ["waypoint_a", "waypoint a", "航点a", "航点A"]
+
+  - name: red_buoy
+    type: buoy
+    position: [26.0, 4.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["red buoy", "red_buoy", "红色浮标", "红浮标"]
+
+  - name: green_buoy
+    type: buoy
+    position: [26.0, 12.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["green buoy", "green_buoy", "绿色浮标", "绿浮标"]
+
+  - name: gate_left
+    type: gate_post
+    position: [26.0, 12.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["left gate", "gate left", "gate_left", "闸门左侧"]
+
+  - name: gate_right
+    type: gate_post
+    position: [26.0, 4.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["right gate", "gate right", "gate_right", "闸门右侧"]
+
+  - name: red_buoy_mid
+    type: buoy
+    position: [62.0, 5.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["red buoy mid", "mid red buoy", "中段红浮标"]
+
+  - name: green_buoy_mid
+    type: buoy
+    position: [62.0, 15.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["green buoy mid", "mid green buoy", "中段绿浮标"]
+
+  - name: gate_left_mid
+    type: gate_post
+    position: [62.0, 15.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["left gate mid", "gate left mid", "gate_left_mid", "中段闸门左侧"]
+
+  - name: gate_right_mid
+    type: gate_post
+    position: [62.0, 5.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["right gate mid", "gate right mid", "gate_right_mid", "中段闸门右侧"]
+
+  - name: red_buoy_far
+    type: buoy
+    position: [102.0, 1.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["red buoy far", "far red buoy", "远端红浮标"]
+
+  - name: green_buoy_far
+    type: buoy
+    position: [102.0, 11.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["green buoy far", "far green buoy", "远端绿浮标"]
+
+  - name: gate_left_far
+    type: gate_post
+    position: [102.0, 11.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["left gate far", "gate left far", "gate_left_far", "远端闸门左侧"]
+
+  - name: gate_right_far
+    type: gate_post
+    position: [102.0, 1.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["right gate far", "gate right far", "gate_right_far", "远端闸门右侧"]
+
+  - name: red_buoy_final
+    type: buoy
+    position: [144.0, 8.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["red buoy final", "final red buoy", "末段红浮标"]
+
+  - name: green_buoy_final
+    type: buoy
+    position: [144.0, 18.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["green buoy final", "final green buoy", "末段绿浮标"]
+
+  - name: gate_left_final
+    type: gate_post
+    position: [144.0, 18.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["left gate final", "gate_left_final", "末段闸门左侧"]
+
+  - name: gate_right_final
+    type: gate_post
+    position: [144.0, 8.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["right gate final", "gate_right_final", "末段闸门右侧"]
+
+  - name: dock
+    type: dock
+    position: [178.0, 12.0, 0.0]
+    risk_radius: 8.5
+    aliases: ["dock", "码头", "码头附近", "目标码头"]
+
+  - name: marker
+    type: marker
+    position: [118.0, 10.0, 0.0]
+    risk_radius: 1.5
+    aliases: ["marker", "标记点", "中继标记点"]
+
+  - name: obstacle_block_1
+    type: obstacle
+    position: [60.0, 22.0, 0.0]
+    risk_radius: 2.8
+    aliases: ["obstacle block 1", "block1", "障碍物1"]
+
+  - name: obstacle_block_2
+    type: obstacle
+    position: [80.0, -2.0, 0.0]
+    risk_radius: 2.8
+    aliases: ["obstacle block 2", "block2", "障碍物2"]
+
+  - name: obstacle_block_3
+    type: obstacle
+    position: [116.0, 16.0, 0.0]
+    risk_radius: 2.8
+    aliases: ["obstacle block 3", "block3", "障碍物3"]
+
+  - name: obstacle_block_4
+    type: obstacle
+    position: [154.0, 4.0, 0.0]
+    risk_radius: 2.8
+    aliases: ["obstacle block 4", "block4", "障碍物4"]
+
+  - name: dyn_obstacle_cross_1
+    type: obstacle_dynamic
+    position: [52.0, 12.5, 0.0]
+    risk_radius: 3.4
+    aliases: ["dynamic obstacle 1", "moving obstacle 1", "动态障碍1", "移动障碍1"]
+    motion:
+      pattern: linear_pingpong
+      amplitude_x: 0.0
+      amplitude_y: 5.5
+      period_sec: 20.0
+      phase_sec: 0.0
+
+  - name: dyn_obstacle_cross_2
+    type: obstacle_dynamic
+    position: [96.0, 10.0, 0.0]
+    risk_radius: 3.4
+    aliases: ["dynamic obstacle 2", "moving obstacle 2", "动态障碍2", "移动障碍2"]
+    motion:
+      pattern: linear_pingpong
+      amplitude_x: 0.0
+      amplitude_y: 6.0
+      period_sec: 22.0
+      phase_sec: 3.0
+
+  - name: dyn_obstacle_orbit_1
+    type: obstacle_dynamic
+    position: [140.0, 14.0, 0.0]
+    risk_radius: 3.6
+    aliases: ["dynamic obstacle 3", "moving obstacle 3", "动态障碍3", "移动障碍3"]
+    motion:
+      pattern: circle
+      radius: 3.0
+      period_sec: 22.0
+      phase_sec: 5.0

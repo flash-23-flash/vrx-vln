@@ -1,0 +1,37 @@
+Instruction:
+{instruction_text}
+
+Ego state:
+- position_xy: {ego_xy}
+- heading_deg: {ego_heading_deg}
+- speed_mps: {ego_speed_mps}
+
+Semantic map candidate objects (must choose target_id only from these ids):
+{candidate_objects_json}
+
+Current local navigation context:
+{local_context_text}
+
+Front camera image status:
+{image_status}
+
+Parsing requirements:
+1. Use the instruction as the main source of intent.
+2. Use semantic-map candidates as the authoritative object set.
+3. Use the current image only to disambiguate visible targets, relative direction, and immediate scene context.
+4. If image is unavailable, rely on instruction text + candidate objects and still parse when instruction is clear.
+5. If instruction says "从红色和绿色浮标中间穿过去" / "pass between red and green buoys", prefer:
+   - intent=go_between
+   - target_id=red_buoy
+   - secondary_target_id=green_buoy
+   - use_rule_fallback=false
+6. If instruction says "沿着航道往前走到码头附近" / "follow channel to dock",
+   and candidate ids include gate_left, gate_right, dock, prefer:
+   - intent=follow_channel
+   - target_id=gate_left
+   - secondary_target_id=gate_right
+   - direction_hint=toward
+   - stop_condition="near dock"
+   - use_rule_fallback=false
+7. If confidence is low or target cannot be grounded, set use_rule_fallback=true.
+8. Output exactly one JSON object matching the schema.

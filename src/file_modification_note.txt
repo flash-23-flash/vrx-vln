@@ -1,0 +1,24 @@
+1. We created and added all files in the following new packages:
+
+action_planner
+cluster_msg
+collision_detector
+lidar_processor
+robot_info_msg
+state_msg
+state_processor
+
+
+
+2. We created and added the following file:
+
+run_vrx_experiments.py
+
+
+
+3. We modified the following files from the original VRX simulator:
+
+vrx_gz/launch/competition.launch.py
+vrx_urdf/wamv_gazebo/urdf/wamv_gazebo.urdf.xacro
+vrx_gz/worlds/sydney_regatta_original.sdf (Note: this is a copy of vrx_gz/worlds/sydney_regatta.sdf from the original VRX simulator, only change the file name.)
+vrx_gz/worlds/sydney_regatta.sdf

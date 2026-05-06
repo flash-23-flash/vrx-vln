@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>state_processor</name>
+  <version>0.1.0</version>
+  <description>A ROS 2 package for computing robot state</description>
+  <maintainer email="xlin26@stevens.edu">Xi Lin</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>cluster_msg</depend>
+  <depend>message_filters</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

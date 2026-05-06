@@ -1,0 +1,27 @@
+- model_name: wamv_red
+  model_type: wam-v
+  position:
+    xyz: [-15.0, 0.0, 0.3]
+    rpy: [0.0, 0.0, 0.0]
+  color: [0.90, 0.20, 0.20]
+
+- model_name: wamv_blue
+  model_type: wam-v
+  position:
+    xyz: [0.0, 12.0, 0.3]
+    rpy: [0.0, 0.0, -1.57]
+  color: [0.20, 0.45, 0.90]
+
+- model_name: wamv_green
+  model_type: wam-v
+  position:
+    xyz: [0.0, -12.0, 0.3]
+    rpy: [0.0, 0.0, 1.57]
+  color: [0.20, 0.75, 0.35]
+
+- model_name: wamv_yellow
+  model_type: wam-v
+  position:
+    xyz: [15.0, 0.0, 0.3]
+    rpy: [0.0, 0.0, 3.14]
+  color: [0.92, 0.82, 0.22]

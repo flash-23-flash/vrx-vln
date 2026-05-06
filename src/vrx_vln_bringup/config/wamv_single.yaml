@@ -1,0 +1,5 @@
+- model_name: wamv
+  model_type: wam-v
+  position:
+    xyz: [0.0, 0.0, 0.3]
+    rpy: [0.0, 0.0, 0.0]

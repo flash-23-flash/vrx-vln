@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>action_planner</name>
+  <version>0.1.0</version>
+  <description>A ROS 2 package for planning action</description>
+  <maintainer email="xlin26@stevens.edu">Xi Lin</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>state_msg</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

@@ -1,0 +1,61 @@
+frame_id: map
+objects:
+  - name: waypoint_a
+    type: waypoint
+    position: [28.0, 8.0, 0.0]
+    risk_radius: 1.0
+    aliases: ["waypoint_a", "waypoint a", "航点a", "航点A"]
+
+  - name: red_buoy
+    type: buoy
+    position: [14.0, 0.5, 0.0]
+    risk_radius: 2.0
+    aliases: ["red buoy", "red_buoy", "红色浮标", "红浮标"]
+
+  - name: green_buoy
+    type: buoy
+    position: [14.0, 5.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["green buoy", "green_buoy", "绿色浮标", "绿浮标"]
+
+  - name: turtle
+    type: wildlife
+    position: [80.0, 80.0, 0.0]
+    risk_radius: 4.0
+    aliases: ["turtle", "海龟"]
+
+  - name: crocodile
+    type: wildlife
+    position: [90.0, 90.0, 0.0]
+    risk_radius: 5.0
+    aliases: ["crocodile", "鳄鱼"]
+
+  - name: dock
+    type: dock
+    position: [34.0, 10.0, 0.0]
+    risk_radius: 6.0
+    aliases: ["dock", "码头", "码头附近"]
+
+  - name: small_boat
+    type: boat
+    position: [30.0, 18.0, 0.0]
+    risk_radius: 3.0
+    aliases: ["small boat", "boat", "小船", "前方小船"]
+
+  - name: gate_left
+    type: gate_post
+    position: [14.0, 5.0, 0.0]
+    risk_radius: 2.0
+    aliases: ["left gate", "gate left", "gate_left", "闸门左侧"]
+
+  - name: gate_right
+    type: gate_post
+    position: [14.0, 0.5, 0.0]
+    risk_radius: 2.0
+    aliases: ["right gate", "gate right", "gate_right", "闸门右侧"]
+
+  - name: marker
+    type: marker
+    position: [24.0, 10.0, 0.0]
+    risk_radius: 1.5
+    aliases: ["marker", "标记点"]

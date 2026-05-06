@@ -1,0 +1,27 @@
+# Build and install folders
+build/
+install/
+log/
+
+# Python
+*.pyc
+__pycache__/
+.pytest_cache/
+*.egg-info/
+
+# VS Code and editors
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Virtualenv
+.venv/
+env/
+
+# Colcon
+*.deb
+
+# Sensitive files (add your own)
+# credentials.yaml

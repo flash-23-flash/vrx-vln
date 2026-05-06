@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>collision_detector</name>
+  <version>0.1.0</version>
+  <description>A ROS 2 package for detecting collisions</description>
+  <maintainer email="xlin26@stevens.edu">Xi Lin</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>nav_msgs</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

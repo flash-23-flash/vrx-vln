@@ -1,0 +1,1 @@
+"""Safety monitor node package."""

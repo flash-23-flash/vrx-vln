@@ -1,0 +1,230 @@
+/**:
+  ros__parameters:
+    use_sim_time: true
+
+instruction_manager:
+  ros__parameters:
+    instruction_topic: /vln/instruction_text
+    task_topic: /vln/task_json
+    semantic_map_topic: /vln/semantic_map
+    parser_mode: hybrid  # rules | vlm | hybrid
+    include_scene_context: true
+    use_vlm_image: true
+    camera_compressed_topic: /wamv/sensors/cameras/front_camera_sensor/optical/image_raw/compressed
+    # OpenAI-compatible VLM base URL.
+    # endpoint will be: ${vlm_api_base}/chat/completions
+    vlm_api_base: "http://127.0.0.1:8000/v1"
+    vlm_model: "Qwen/Qwen2.5-VL-7B-Instruct-AWQ"
+    # lightweight fallback model:
+    # vlm_model: "Qwen/Qwen2.5-VL-3B-Instruct-AWQ"
+    vlm_api_key_env: OPENAI_API_KEY
+    vlm_timeout_ms: 8000
+    vlm_max_retries: 1
+    vlm_confidence_threshold: 0.55
+    # If true, semantic.use_rule_fallback=true returned by VLM will force rules fallback.
+    # Benchmark can disable this to measure actual VLM parse contribution.
+    allow_model_rule_fallback: true
+    vlm_temperature: 0.1
+    vlm_max_tokens: 256
+    vlm_media_dir: /tmp/marine_vln_vlm_media
+    vlm_enable_guided_json: true
+    vlm_save_debug_image: true
+    vlm_log_raw_response: true
+    vlm_max_candidates: 16
+    vlm_candidate_max_distance_m: 220.0
+    method_name: hybrid_current
+    use_hybrid_fallback: true
+    use_semantic_map_authority: true
+    use_grounding_verifier: true
+    grounding_score_threshold: 0.40
+    use_topk_hypothesis: true
+    topk_hypothesis_count: 3
+    use_oracle_parser: false
+    benchmark_mode: false
+    benchmark_vlm_drop_rate: 0.0
+    benchmark_seed: 12345
+    log_root: /tmp/marine_vln_logs
+
+scene_parser:
+  ros__parameters:
+    odom_topic: /model/wamv/odometry
+    odom_topic_fallback: /wamv/sensors/position/ground_truth_odometry
+    imu_topic: /wamv/sensors/imu/imu/data
+    gps_topic: /wamv/sensors/gps/gps/fix
+    camera_topic: /wamv/sensors/cameras/front_camera_sensor/optical/image_raw
+    lidar_topic: /wamv/sensors/lidars/lidar_wamv_sensor/points
+    scene_topic: /vln/scene_state
+    object_file: ""
+    publish_rate_hz: 10.0
+    enable_dynamic_object_motion: true
+    dynamic_motion_time_scale: 1.0
+    log_root: /tmp/marine_vln_logs
+
+semantic_mapper:
+  ros__parameters:
+    scene_topic: /vln/scene_state
+    semantic_map_topic: /vln/semantic_map
+    cache_ttl_sec: 3.0
+    publish_rate_hz: 10.0
+    benchmark_object_drop_rate: 0.0
+    benchmark_pose_noise_std: 0.0
+    benchmark_semantic_corruption_ratio: 0.0
+    benchmark_seed: 12345
+    log_root: /tmp/marine_vln_logs
+
+subgoal_planner:
+  ros__parameters:
+    task_topic: /vln/task_json
+    semantic_map_topic: /vln/semantic_map
+    replan_topic: /vln/replan_required
+    subgoals_topic: /vln/subgoals
+    subgoals_json_topic: /vln/subgoals_json
+    publish_rate_hz: 2.0
+    frame_id: map
+    circle_radius: 8.0
+    circle_points: 8
+    stop_near_distance: 4.0
+    avoid_distance: 10.0
+    pass_between_approach_distance: 6.0
+    pass_between_exit_distance: 5.0
+    pass_side_offset_m: 4.0
+    use_topk_hypothesis: true
+    hypothesis_switch_on_replan: true
+    max_hypothesis_switches_per_task: 3
+    hypothesis_switch_high_risk_threshold: 0.72
+    hypothesis_switch_cooldown_sec: 5.0
+    log_root: /tmp/marine_vln_logs
+
+local_planner:
+  ros__parameters:
+    subgoals_topic: /vln/subgoals
+    semantic_map_topic: /vln/semantic_map
+    odom_topic: /model/wamv/odometry
+    odom_topic_fallback: /wamv/sensors/position/ground_truth_odometry
+    path_topic: /vln/local_path
+    planning_rate_hz: 5.0
+    interpolation_step_m: 1.5
+    obstacle_avoid_radius: 6.0
+    obstacle_push_gain: 0.55
+    obstacle_extra_margin: 1.2
+    obstacle_repel_iterations: 3
+    obstacle_push_exponent: 1.8
+    obstacle_max_push_step: 0.55
+    dynamic_obstacle_radius_scale: 1.25
+    dynamic_obstacle_push_scale: 1.45
+    dynamic_push_cap_scale: 1.2
+    dynamic_activation_ratio: 0.82
+    ignore_object_types: ["waypoint", "marker", "gate_post", "buoy"]
+    subgoal_reached_distance: 5.5
+    drop_behind_subgoals: true
+    behind_distance_threshold: 4.0
+    max_path_points: 500
+    frame_id: map
+    log_root: /tmp/marine_vln_logs
+
+controller:
+  ros__parameters:
+    path_topic: /vln/local_path
+    odom_topic: /model/wamv/odometry
+    odom_topic_fallback: /wamv/sensors/position/ground_truth_odometry
+    cmd_vel_topic: /vln/cmd_vel_raw
+    left_thrust_topic: /vln/raw/left_thrust
+    right_thrust_topic: /vln/raw/right_thrust
+    left_pos_topic: /vln/raw/left_pos
+    right_pos_topic: /vln/raw/right_pos
+    control_rate_hz: 20.0
+    lookahead_distance: 3.5
+    goal_tolerance: 1.5
+    desired_speed: 1.3
+    max_omega: 1.35
+    kp_yaw: 2.2
+    min_speed_scale: 0.20
+    hard_turn_heading_rad: 1.05
+    hard_turn_speed_scale: 0.10
+    hard_turn_min_yaw_delta: 70.0
+    use_reverse_for_turning: true
+    kff_thrust: 90.0
+    kp_speed: 40.0
+    ki_speed: 5.0
+    max_thrust: 300.0
+    min_thrust: -140.0
+    yaw_to_thrust_gain: 180.0
+    max_yaw_delta_ratio: 0.95
+    neutral_thruster_pos: 0.0
+    log_root: /tmp/marine_vln_logs
+
+safety_monitor:
+  ros__parameters:
+    semantic_map_topic: /vln/semantic_map
+    raw_cmd_vel_topic: /vln/cmd_vel_raw
+    safe_cmd_vel_topic: /vln/cmd_vel_safe
+    raw_left_thrust_topic: /vln/raw/left_thrust
+    raw_right_thrust_topic: /vln/raw/right_thrust
+    raw_left_pos_topic: /vln/raw/left_pos
+    raw_right_pos_topic: /vln/raw/right_pos
+    final_left_thrust_topic: /wamv/thrusters/left/thrust
+    final_right_thrust_topic: /wamv/thrusters/right/thrust
+    final_left_pos_topic: /wamv/thrusters/left/pos
+    final_right_pos_topic: /wamv/thrusters/right/pos
+    replan_topic: /vln/replan_required
+    safety_status_topic: /vln/safety_status_json
+    control_rate_hz: 20.0
+    enable_emergency_stop: true
+    enable_replan_trigger: true
+    caution_distance: 12.0
+    stop_distance: 4.5
+    resume_distance: 6.2
+    min_scale: 0.35
+    dynamic_min_scale: 0.28
+    dynamic_stop_distance_scale: 0.45
+    dynamic_hard_stop_distance: 1.2
+    preserve_turning_authority: true
+    turning_authority_min_scale: 0.55
+    turning_authority_exponent: 0.5
+    dynamic_turn_delta_ratio_limit: 0.82
+    max_abs_thrust: 320.0
+    dynamic_emergency_stop: false
+    use_encounter_aware_safety: true
+    ttc_caution_sec: 9.0
+    ttc_stop_sec: 2.2
+    dynamic_margin_base: 1.6
+    dynamic_margin_ttc_gain: 2.2
+    encounter_head_on_penalty: 0.35
+    encounter_crossing_starboard_penalty: 0.30
+    encounter_crossing_port_penalty: 0.18
+    encounter_overtaking_penalty: 0.12
+    encounter_replan_ttc_sec: 4.5
+    risk_replan_threshold: 0.62
+    ignore_object_types: ["waypoint", "marker", "gate_post", "buoy"]
+    log_root: /tmp/marine_vln_logs
+
+dynamic_obstacle_driver:
+  ros__parameters:
+    dynamic_set_pose_service: /world/vrx_vln_dynamic_challenge/set_pose
+    auto_discover_set_pose_service: true
+    dynamic_object_file: ""
+    update_rate_hz: 5.0
+    dynamic_types: ["obstacle_dynamic"]
+    dynamic_motion_time_scale: 1.0
+    log_root: /tmp/marine_vln_logs
+
+vlm_visualizer:
+  ros__parameters:
+    image_topic: /wamv/sensors/cameras/front_camera_sensor/optical/image_raw
+    task_topic: /vln/task_json
+    subgoals_json_topic: /vln/subgoals_json
+    semantic_map_topic: /vln/semantic_map
+    camera_info_topic: /wamv/sensors/cameras/front_camera_sensor/optical/camera_info
+    overlay_topic: /vln/debug/front_camera_overlay
+    pseudo_fov_deg: 90.0
+    camera_mount_x_m: 0.72
+    camera_mount_y_m: 0.30
+    camera_height_m: 1.50
+    camera_yaw_deg: 0.0
+    camera_pitch_deg: 8.0
+    camera_roll_deg: 0.0
+    use_camera_info_intrinsics: true
+    max_objects: 12
+    enable_pseudo_boxes: true
+    publish_if_no_overlay: true
+    log_root: /tmp/marine_vln_logs

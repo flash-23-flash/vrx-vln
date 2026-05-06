@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>vrx_vln_bringup</name>
+  <version>0.0.1</version>
+  <description>Single-USV empty-scene bringup package for the VRX_VLN workspace.</description>
+  <maintainer email="pkuiflab@example.com">pkuiflab</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>lidar_processor</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>vrx_gz</exec_depend>
+  <exec_depend>vrx_ros</exec_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
