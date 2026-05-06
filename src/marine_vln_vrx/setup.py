@@ -26,8 +26,8 @@ setup(
     ],
     install_requires=["setuptools", "PyYAML"],
     zip_safe=True,
-    maintainer="pkuiflab",
-    maintainer_email="pkuiflab@example.com",
+    maintainer="THUlzq",
+    maintainer_email="luzq25@mails.tsinghua.edu.cn",
     description="Minimal hierarchical Marine-VLN prototype for VRX (ROS 2).",
     license="Apache-2.0",
     entry_points={

@@ -20,8 +20,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='pkuiflab',
-    maintainer_email='pkuiflab@example.com',
+    maintainer='THUlzq',
+    maintainer_email='luzq25@mails.tsinghua.edu.cn',
     description='Single-USV empty-scene bringup package for the VRX_VLN workspace.',
     license='Apache-2.0',
     entry_points={

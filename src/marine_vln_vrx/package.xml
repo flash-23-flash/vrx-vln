@@ -3,7 +3,7 @@
   <name>marine_vln_vrx</name>
   <version>0.1.0</version>
   <description>Minimal hierarchical Marine-VLN prototype for VRX (ROS 2).</description>
-  <maintainer email="pkuiflab@example.com">pkuiflab</maintainer>
+  <maintainer email="luzq25@mails.tsinghua.edu.cn">THUlzq</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_python</buildtool_depend>

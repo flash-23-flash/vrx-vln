@@ -43,7 +43,7 @@
 ```bash
 export OPENAI_API_KEY=your_key
 ros2 launch marine_vln_vrx marine_vln_system.launch.py \
-  params_file:=/home/pkuiflab/VRX_VLN/src/marine_vln_vrx/config/marine_vln_params.yaml
+  params_file:=/path/to/VRX_VLN/src/marine_vln_vrx/config/marine_vln_params.yaml
 ```
 
 并在参数里设置：

@@ -3,7 +3,7 @@
   <name>vrx_vln_bringup</name>
   <version>0.0.1</version>
   <description>Single-USV empty-scene bringup package for the VRX_VLN workspace.</description>
-  <maintainer email="pkuiflab@example.com">pkuiflab</maintainer>
+  <maintainer email="luzq25@mails.tsinghua.edu.cn">THUlzq</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_python</buildtool_depend>

@@ -7,7 +7,7 @@
 ## 2. 本地服务部署（Qwen2.5-VL + vLLM）
 
 ```bash
-cd /home/pkuiflab/VRX_VLN
+cd /path/to/VRX_VLN
 ./scripts/start_qwen25_vl_server.sh          # 默认 7B AWQ
 # ./scripts/start_qwen25_vl_server.sh --3b   # 切 3B AWQ
 ./scripts/check_qwen25_vl_server.sh
@@ -118,7 +118,7 @@ train_lora \
 ## 8. VRX 评测
 
 ```bash
-cd /home/pkuiflab/VRX_VLN
+cd /path/to/VRX_VLN
 ./scripts/eval_qwen_vln_vrx.sh
 ```
 

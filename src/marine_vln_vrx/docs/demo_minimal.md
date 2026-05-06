@@ -3,14 +3,14 @@
 ## 1. 构建
 
 ```bash
-cd /home/pkuiflab/VRX_VLN
+cd /path/to/VRX_VLN
 ./build_vrx_vln.sh
 ```
 
 ## 2. 启动系统
 
 ```bash
-cd /home/pkuiflab/VRX_VLN
+cd /path/to/VRX_VLN
 source /opt/ros/humble/setup.bash
 source install/setup.bash
 ros2 launch marine_vln_vrx marine_vln_system.launch.py headless:=False rviz:=True
@@ -42,4 +42,4 @@ ros2 topic echo /vln/cmd_vel_safe --once
 
 日志路径：
 
-`/home/pkuiflab/VRX_VLN/src/marine_vln_vrx/logs/<run_id>/`
+`/path/to/VRX_VLN/src/marine_vln_vrx/logs/<run_id>/`
