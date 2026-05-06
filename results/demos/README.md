@@ -1,6 +1,8 @@
 # Demo Results
 
-本目录用于保存两条基础 demo 的结果与截图。
+This directory stores demo recordings and screenshots for the VRX_VLN runs.
 
-建议按时间创建子目录，例如：
-- `results/demos/20260413_1500_gate_and_dock/`
+## 2026-05-06 GIFs
+
+- [demo_174033.gif](20260506_gifs/demo_174033.gif)
+- [demo_174140.gif](20260506_gifs/demo_174140.gif)
